@@ -17,7 +17,19 @@ function MBW573SetupInstrument(t,MBWsettings)
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-setpoints=table2array(MBWsettings);
+setPoints=table2array(MBWsettings);
+setPointNames=string(MBWsettings.Properties.VariableNames);
+
+%% activation of pump, heater, and control must go last, so the order of the setpoints must be re-allocated
+arraysToMove = ismember(setPointNames,["Pump","Heater","Control"]); % find indeces of the elements to move
+setPoints(end+1:end+3)=setPoints(arraysToMove); %add them to the end of the arrays
+setPointNames(end+1:end+3)=setPointNames(arraysToMove);
+setPoints(arraysToMove)=[]; % remove them from their initial location
+setPointNames(arraysToMove)=[];
+
+
 for i=1:size(MBWsettings,2)
-    t.writeline(strcat(MBWsettings.Properties.VariableNames{i},'=',setpoints(i)));
+%     strcat(setPointNames(i),'=',setPoints(i))
+    t.writeline(strcat(setPointNames(i),'=',setPoints(i)));
+    pause(0.05);
 end

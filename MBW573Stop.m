@@ -16,8 +16,9 @@ function MBW573Stop(t)
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-parameters = ["Pump.on","AMC.on","Heater","Control","MirrorCheck"];
+parameters = ["Pump","AMC.on","Heater","Control","MirrorCheck"];
 for i=1:size(parameters,2)
     command = strcat(parameters(i),'=0');
     t.writeline(command);
+    pause(0.05);
 end

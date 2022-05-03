@@ -16,13 +16,19 @@ function MBW573Table = MBW573Read(t,MBW573Table)
 % DATE: 08-Apr-2022
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-dataTemp=zeros(1,size(MBW573Table,2));
-for i=1:size(MBW573Table,2)
-    command = strcat(MBW573Table.Properties.VariableNames{i},'?');
-    t.writeline(command)
-    dataTemp(i)=t.readline;
-end
+
 timestamp = datetime(now,'ConvertFrom','datenum');
-dataTable = array2timetable(dataTemp,'RowTimes',timestamp);
-dataTable.Properties.VariableNames=MBW573Table.Properties.VariableNames;
-MBW573Table=[MBW573Table;dataTable];
+
+if seconds(timestamp - MBW573Table.Time(end))>10
+    dataTemp=zeros(1,size(MBW573Table,2));
+    for i=1:size(MBW573Table,2)
+        command = strcat(MBW573Table.Properties.VariableNames{i},'?');
+        t.writeline(command)
+        pause(0.05);
+        dataTemp(i)=t.readline;
+    end
+    timestamp = datetime(now,'ConvertFrom','datenum');
+    dataTable = array2timetable(dataTemp,'RowTimes',timestamp);
+    dataTable.Properties.VariableNames=MBW573Table.Properties.VariableNames;
+    MBW573Table=[MBW573Table;dataTable];
+end
