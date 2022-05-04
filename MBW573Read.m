@@ -37,7 +37,6 @@ if seconds(timestamp - MBW573Table.Time(end))>10
         end
         dataTemp(i)=t.readline;
     end
-    timestamp = datetime(now,'ConvertFrom','datenum');
     dataTable = array2timetable(dataTemp,'RowTimes',timestamp);
     dataTable.Properties.VariableNames=MBW573Table.Properties.VariableNames;
     MBW573Table=[MBW573Table;dataTable];

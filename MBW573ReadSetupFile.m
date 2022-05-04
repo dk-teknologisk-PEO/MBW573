@@ -50,4 +50,4 @@ field(field=='address' | field=='port')=[];
 
 MBWsettings=array2table(data);
 MBWsettings.Properties.VariableNames=field;
-MBWsettings.("AMC.on")=0;
+MBWsettings.("AMC.on")="0";
