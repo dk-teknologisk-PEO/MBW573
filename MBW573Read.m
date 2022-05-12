@@ -21,6 +21,7 @@ timestamp = datetime(now,'ConvertFrom','datenum');
 
 if seconds(timestamp - MBW573Table.Time(end))>10
     dataTemp=zeros(1,size(MBW573Table,2));
+    mbwFile=fopen('mbwLog.txt','a'); % write raw data into a log
     for i=1:size(MBW573Table,2)
         command = strcat(MBW573Table.Properties.VariableNames{i},'?');
         t.writeline(command)
@@ -36,7 +37,10 @@ if seconds(timestamp - MBW573Table.Time(end))>10
             end
         end
         dataTemp(i)=t.readline;
+        fprintf(mbwFile,'%s ',dataTemp(i));
     end
+    fprintf(mbwFile,'\r');
+    fclose(mbwFile);
     dataTable = array2timetable(dataTemp,'RowTimes',timestamp);
     dataTable.Properties.VariableNames=MBW573Table.Properties.VariableNames;
     MBW573Table=[MBW573Table;dataTable];
