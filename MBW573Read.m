@@ -1,5 +1,5 @@
-function MBW573Table = MBW573Read(t,MBW573Table,settings)
-%MBW573Read queries the instrument for the latest measurement data
+function MBW573Table = MBW573Read(t, MBW573Table, settings)
+%MBW573Read Queries the instrument for the latest measurement data
 %
 % SYNOPSIS: MBW573Table = MBW573Read(t,MBW573Table)
 %
@@ -25,7 +25,7 @@ if seconds(timestamp - MBW573Table.Time(end))>10
     for i=1:size(MBW573Table,2)
         command = strcat(MBW573Table.Properties.VariableNames{i},'?');
         t.writeline(command)
-        %% wait untill entire serial message has been received (number of available bytes is constant)
+        %% wait until entire serial message has been received (number of available bytes is constant)
         numBytesOld = t.NumBytesAvailable;
         while true
             pause(0.01)
@@ -45,13 +45,13 @@ if seconds(timestamp - MBW573Table.Time(end))>10
     dataTable.Properties.VariableNames=MBW573Table.Properties.VariableNames;
     MBW573Table=[MBW573Table;dataTable];
 
-    %% perform mirror check
+    %% Perform mirror check
     mirrorCheckIndices=find(MBW573Table.MirrorCheck==1);
     if ~isempty(mirrorCheckIndices)
         lastMirrorCheckIndices = mirrorCheckIndices(end);
     end
-    if strcmp(settings.("AMC.on"),"0") % perform manual mirrorcheck
-        if sum(MBW573Table.MirrorCheck==1)==0 || minutes(datetime(now,'ConvertFrom','datenum')-MBW573Table.Time(lastMirrorCheckIndices))>double(settings.("AMC.cycleTime"))
+    if strcmp(settings.("AMC.on"), "0") % perform manual mirrorcheck
+        if sum(MBW573Table.MirrorCheck==1)==0 || minutes(datetime('now') - MBW573Table.Time(lastMirrorCheckIndices))>double(settings.("AMC.cycleTime"))
             t.writeline('MirrorCheck=1')
         end
     end

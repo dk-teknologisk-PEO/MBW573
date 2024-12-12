@@ -15,8 +15,8 @@ function [MBW573Table] = MBW573CreateTable()
 % DATE: 08-Apr-2022
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-outputs = ["Stable","Pump","Heater","MirrorCheck","Control","DP","FP","P","Th","Tx"];
-initialArray = zeros(1,size(outputs,2));
+outputs = ["Stable", "Pump", "Heater", "MirrorCheck", "Control", "DP", "FP", "P", "Th", "Tx"];
+initialArray = zeros(1, size(outputs, 2));
 
-MBW573Table=array2timetable(initialArray,'RowTimes',datetime(now,'ConvertFrom','datenum'));
-MBW573Table.Properties.VariableNames=outputs;
+MBW573Table = array2timetable(initialArray, 'RowTimes', datetime('now'));
+MBW573Table.Properties.VariableNames = outputs;
